@@ -4,15 +4,23 @@ a remote lab running locally using a flask for the server 0.0.0.0 to run on all 
 heres an tutorial i made myself, Support to MacOS and other operating systems will come soon!
 if you are on windows 10/11:
 firstly open the command prompt by pressing the windows key, typing cmd and pressing enter, a black windows will open
+
 now we gotta go to the lab folder, type this command in the black window (cmd): cd C:\Users\YOUR_USERNAME\Desktop\Lab (replace YOUR_USERNAME with ur actual windows username an example: cd C:\Users\scientist123\Desktop\Lab)
 before we continue on running make sure python is installed on ur system using the command: python --version or python3 --version
+
 if a version (as an example: 3.11.9) shows up youre set.
 if you do not have python installed or get an error install python from python.org and in the installation window make sure Add python to path is checked (don't rush the installation, be careful and follow the steps)
 important: make sure to install the required modules for everything to run: pip install flask pillow psutil waitress (my project doesn't have a requirements.txt because its known for having path errors especially in python)
+
 lastly start the server: python server.py (make sure your executing this command while ur cmd is stil in the lab path or else it will give an error)
 the server will now run locally and if a firewall popup appears click allow access so you and other devices can access it
-last step: find ur local ip address to open the website: type in ipconfig in ur cmd and scroll down until you see something called ipv4 address and on the right side of it theres something that's gonna look like this: 192.168.x.x, copy that (Important) now lets open the website: open a web browser (Make sure the browser accepts http sites so firefox or chrome) and enter this: "http://youripaddress:5000" replace "youripaddress" with your actual one that u copied
+
+last step: find ur local ip address to open the website: type in ipconfig in ur cmd and scroll down until you see something called ipv4 address and on the right side of it theres something that's gonna look like this: 192.168.x.x, copy that (Important) now lets open the website: open a web browser (Make sure the browser 
+accepts http sites so firefox or chrome) 
+and enter this: "http://youripaddress:5000" replace "youripaddress" with your actual one that u copied
+
 now you should land on the website. if nothing broke you just gotta enter a random username and a password set from the auth.py file.
+
 have fun!
 
 if youre on Linux:
