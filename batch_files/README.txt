@@ -1,0 +1,1 @@
+do not delete this folder unless you don't want the batchfile maker/executor to work on the website, this is also considered a core part for accessibility.

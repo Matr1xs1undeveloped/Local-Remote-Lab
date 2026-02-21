@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create a Batch file then run it</title>
+<style>
+body {
+    background: #111;
+    color: #b19cd9;
+    font-family: monospace;
+    text-align: center;
+}
+textarea {
+    width: 90%;
+    height: 400px;
+    background: #222;
+    color: #b19cd9;
+    border: 1px solid #b19cd9;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: monospace;
+}
+input, button { margin: 10px; padding: 5px 10px; font-size: 16px; }
+button:hover { background: #b19cd9; color: #111; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>Batch File Editor</h1>
+<form action="/save_batch" method="post">
+    <input type="text" name="filename" placeholder="File name (no extension)">
+    <br>
+    <textarea name="content" placeholder="Type your batch commands here..."></textarea>
+    <br>
+    <button type="submit">Save & Execute</button>
+    <button type="button" onclick="window.location='/'">Cancel</button>
+</form>
+</body>
+</html>

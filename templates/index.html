@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title> <!-- change if you want -->
+<style>
+body { 
+    background: url("/static/background/coolbackgrounds-particles-compute.png") no-repeat center center fixed;
+    background-size: cover;
+    color: #b19cd9;
+    font-family: monospace; 
+    text-align: center; 
+    margin: 0;
+    padding: 0;
+}
+h1 { margin-bottom: 10px; font-size: 28px; text-shadow: 0 0 5px #b19cd9; }
+h2 { margin-top: 20px; font-size: 20px; text-shadow: 0 0 4px #b19cd9; }
+button { margin: 5px; padding: 10px 20px; font-size: 16px; background: rgba(0,0,0,0.5); color: #b19cd9; border: 1px solid #b19cd9; cursor: pointer; border-radius: 5px; }
+button:hover { background: #b19cd9; color: #111; }
+input { margin: 5px; padding: 5px; font-size: 16px; background: rgba(0,0,0,0.5); color: #b19cd9; border: 1px solid #b19cd9; border-radius: 5px; }
+.screen-container { width: 480px; height: 270px; border: 2px solid #b19cd9; margin: 10px auto; overflow: hidden; background: rgba(0,0,0,0.7); border-radius: 8px; }
+.screen-container img { width: 100%; height: auto; display: block; }
+.subsection { margin-top: 20px; display: flex; flex-direction: column; align-items: center; }
+</style>
+</head>
+<body>
+
+<h1>Remote Lab</h1> <!-- also change if u want -->
+
+<div class="screen-container">
+    <img id="screen" src="/static/screen.png" alt="Live screen">
+</div>
+
+<script>
+const img = document.getElementById('screen');
+function updateScreen() {
+    const newImg = new Image();
+    newImg.src = '/static/screen.png?' + new Date().getTime();
+    newImg.onload = () => { img.src = newImg.src; };
+}
+setInterval(updateScreen, 200);
+</script>
+
+<div class="subsection">
+<h2>Actions</h2> <!-- you can change this but make sure to not change anything below anymore -->
+
+<form action="/create_folder" method="post">
+    <input type="text" name="folder_name" placeholder="Folder name">
+    <button type="submit">Create Folder</button>
+</form>
+
+<form action="/shutdown" method="post" onsubmit="return confirm('Warning: Shutdown PC? 5s delay.')">
+    <button type="submit">Shutdown PC (5s delay)</button>
+</form>
+
+<form action="/delete_file" method="post">
+    <input type="text" name="file_name" placeholder="File/folder name">
+    <button type="submit">Delete File/Folder</button>
+</form>
+
+<form action="/log_test" method="post">
+    <button type="submit">Test Log Action</button>
+</form>
+
+<form action="/overlay" method="post">
+    <input type="text" name="overlay_text" placeholder="Overlay text">
+    <button type="submit">show a text overlay (3s)</button>
+</form>
+
+<form action="/list_processes" method="get">
+    <button type="submit">Running Processes</button>
+</form>
+
+<form action="/advanced_startup" method="post" onsubmit="return confirm('Warning: PC will restart into recovery mode!')">
+    <button type="submit">Advanced Startup (UEFI Settings)</button>
+</form>
+
+<p>CPU Usage: {{ cpu }}% | RAM Usage: {{ ram }}%</p>
+
+<h3>Desktop Files/Folders</h3>
+<ul>
+{% for f in desktop_files %}
+<li>{{ f }}</li>
+{% endfor %}
+</ul>
+
+<form action="/rename_desktop" method="post">
+    <input type="text" name="old_name" placeholder="Old Name">
+    <input type="text" name="new_name" placeholder="New Name">
+    <button type="submit">Rename a file/folder</button>
+</form>
+
+<form action="/create_text_file" method="post">
+    <input type="text" name="filename" placeholder="Filename">
+    <input type="text" name="content" placeholder="Content (optional)">
+    <button type="submit">Create a text file</button>
+</form>
+
+<form action="/batch_editor" method="get">
+    <button type="submit">Make a Batch File</button>
+</form>
+
+</div>
+</body>
+</html>

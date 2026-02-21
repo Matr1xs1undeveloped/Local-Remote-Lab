@@ -1,0 +1,33 @@
+if you are on windows 10/11:
+firstly open the command prompt by pressing the windows key, typing cmd and pressing enter, a black windows will open
+now we gotta go to the lab folder, type this command in the black window (cmd): cd C:\Users\YOUR_USERNAME\Desktop\Lab (replace YOUR_USERNAME with ur actual windows username an example: cd C:\Users\scientist123\Desktop\Lab)
+before we continue on running make sure python is installed on ur system using the command: python --version or python3 --version
+if a version (as an example: 3.11.9) shows up youre set.
+if you do not have python installed or get an error install python from python.org and in the installation window make sure Add python to path is checked (don't rush the installation, be careful and follow the steps)
+important: make sure to install the required modules for everything to run: pip install flask pillow psutil waitress (my project doesn't have a requirements.txt because its known for having path errors especially in python)
+lastly start the server: python server.py (make sure your executing this command while ur cmd is stil in the lab path or else it will give an error)
+the server will now run locally and if a firewall popup appears click allow access so you and other devices can access it
+last step: find ur local ip address to open the website: type in ipconfig in ur cmd and scroll down until you see something called ipv4 address and on the right side of it theres something that's gonna look like this: 192.168.x.x, copy that (Important) now lets open the website: open a web browser (Make sure the browser accepts http sites so firefox or chrome) and enter this: "http://youripaddress:5000" replace "youripaddress" with your actual one that u copied
+now you should land on the website. if nothing broke you just gotta enter a random username and a password set from the auth.py file.
+have fun!
+
+if youre on Linux:
+
+open the terminal by pressing Ctrl + Alt + T or searching for it in ur applications
+after that we need to go into the lab folder by executing this command in terminal: "cd ~/Desktop/Lab" if your lab folder is somewhere else feel free to change the path
+and while were at it make sure python is installed using this command: "python3 --version" or "python --version" if it shows a version ur set with python
+if not, install python:
+ubuntu/Debian: sudo apt update, sudo apt install python3 python3-pip
+Fedora: sudo dnf install python3 python3-pip
+
+after that, make sure to install the required modules: "pip3 install flask pillow psutil waitress" (project doesn't have a requirements.txt because there can be some expected bugs with it or errors)
+after you have done all of this, try to run the server: "python3 server.py" or "python server.py" after u ran it, it should say the server is listening on all interfaces or just naming a port (5000 if u didn't change it)
+
+now inorder to visit the website you need to find ur local ip address using ip addr or hostname -I, look for something looking like: 192.168.x.x
+
+last step: open the website and enjoy your remote access control
+on your phone or another device (if you want to) on the same network (important, do not use a vpn on any device when doing this neither the one where the server is running)
+then open a browser and type in: http://youripaddress:5000 (replace youripaddress with ur local one that u got from the commands)
+have fun!
+
+NOTE: if you encounter any problems add me on discord: morggie30, describe ur problem clearly and send screenshots
