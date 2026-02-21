@@ -10,7 +10,7 @@ now we gotta go to the lab folder, type this command in the black window (cmd): 
 before we continue on running make sure python is installed on ur system using the command: python --version or python3 --version
 
 if a version (as an example: 3.11.9) shows up youre set.
-if you do not have python installed or get an error install python from python.org and in the installation window make sure Add python to path is checked (don't rush the installation, be careful and follow the steps)
+if you do not have python installed or get an error, install python from python.org and in the installation window make sure Add python to path is checked (don't rush the installation, be careful and follow the steps)
 important: make sure to install the required modules for everything to run: pip install flask pillow psutil waitress (my project doesn't have a requirements.txt because its known for having path errors especially in python)
 
 lastly start the server: python server.py (make sure your executing this command while ur cmd is stil in the lab path or else it will give an error)
