@@ -1,13 +1,13 @@
-#do not delete/change/add modules unless you wanna rewrite 90% of the files
+#changing these can break core parts of the program
 import os
 import psutil
 import time
 from pathlib import Path
 import subprocess
 import tkinter as tk
+import pyautogui
 
-DESKTOP = os.path.join(os.path.expanduser("~"), "Desktop") #this path is if u put the folder on the desktop
-#you can change the path if u need to
+DESKTOP = os.path.join(os.path.expanduser("~"), "Desktop")#desktop path, which is why i recommend to keep the whole folder on the desktop
 
 def show_overlay(text, duration=3):
     root = tk.Tk()
@@ -22,15 +22,13 @@ def show_overlay(text, duration=3):
     root.after(duration*1000, root.destroy)
     root.mainloop()
     return f"Overlay shown: {text}"
-#25-93 are the actions you can execute on the website
+
+#all the functions (if youre experienced then you can add your own lol)
 def list_processes():
-    processes = [p.name() for p in psutil.process_iter()]
-    return processes
+    return [p.name() for p in psutil.process_iter()]
 
 def get_system_usage():
-    cpu = psutil.cpu_percent(interval=1)
-    ram = psutil.virtual_memory().percent
-    return cpu, ram
+    return psutil.cpu_percent(interval=1), psutil.virtual_memory().percent
 
 def list_desktop():
     return [f.name for f in Path(DESKTOP).iterdir()]
@@ -75,8 +73,7 @@ def delete_file(file_name):
         elif os.path.isdir(path):
             os.rmdir(path)
             return f"Folder deleted: {file_name}"
-        else:
-            return f"{file_name} not found"
+        return f"{file_name} not found"
     except Exception as e:
         return f"Failed to delete: {e}"
 
@@ -88,6 +85,23 @@ def shutdown_pc(delay=5):
     except Exception as e:
         return f"Failed to shutdown: {e}"
 
-def log_test(): #can be used for debugging/testing
+def log_test():
     print("Log test button pressed!")
     return "Log test executed."
+
+# --- Keyboard & Mouse ---
+def press_key(key):
+    try:
+        pyautogui.press(key.lower())
+    except Exception:
+        print(f"Failed to press key: {key}")
+
+def move_mouse(x, y):
+    screen_width, screen_height = pyautogui.size()
+    px = int(x / 480 * screen_width)
+    py = int(y / 270 * screen_height)
+    pyautogui.moveTo(px, py)
+
+def click_mouse(button):
+    btn = 'left' if button == 0 else 'right'
+    pyautogui.click(button=btn)
