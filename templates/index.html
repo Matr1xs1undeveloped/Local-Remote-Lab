@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard</title> <!-- change if you want -->
+<title>Dashboard</title>
 <style>
 body { 
     background: url("/static/background/coolbackgrounds-particles-compute.png") no-repeat center center fixed;
@@ -15,17 +15,23 @@ body {
 }
 h1 { margin-bottom: 10px; font-size: 28px; text-shadow: 0 0 5px #b19cd9; }
 h2 { margin-top: 20px; font-size: 20px; text-shadow: 0 0 4px #b19cd9; }
+h3 { margin-top: 15px; font-size: 18px; text-shadow: 0 0 3px #b19cd9; }
 button { margin: 5px; padding: 10px 20px; font-size: 16px; background: rgba(0,0,0,0.5); color: #b19cd9; border: 1px solid #b19cd9; cursor: pointer; border-radius: 5px; }
 button:hover { background: #b19cd9; color: #111; }
 input { margin: 5px; padding: 5px; font-size: 16px; background: rgba(0,0,0,0.5); color: #b19cd9; border: 1px solid #b19cd9; border-radius: 5px; }
 .screen-container { width: 480px; height: 270px; border: 2px solid #b19cd9; margin: 10px auto; overflow: hidden; background: rgba(0,0,0,0.7); border-radius: 8px; }
 .screen-container img { width: 100%; height: auto; display: block; }
 .subsection { margin-top: 20px; display: flex; flex-direction: column; align-items: center; }
+.keyboard { display: grid; grid-template-columns: repeat(14, 40px); gap: 3px; margin: 10px; }
+.key { width: 38px; height: 38px; background: rgba(0,0,0,0.5); border: 1px solid #b19cd9; color: #b19cd9; border-radius: 5px; cursor: pointer; display:flex; justify-content:center; align-items:center; }
+.key:hover { background: #b19cd9; color: #111; }
+.mouse-area { width: 480px; height: 270px; border: 2px solid #b19cd9; margin: 10px auto; background: rgba(0,0,0,0.7); border-radius: 8px; position: relative; cursor: crosshair; }
+.pointer { width: 10px; height: 10px; background: #b19cd9; border-radius: 50%; position: absolute; top:0; left:0; }
 </style>
 </head>
 <body>
 
-<h1>Remote Lab</h1> <!-- also change if u want -->
+<h1>Remote Laboratory Dashboard</h1>
 
 <div class="screen-container">
     <img id="screen" src="/static/screen.png" alt="Live screen">
@@ -42,7 +48,7 @@ setInterval(updateScreen, 200);
 </script>
 
 <div class="subsection">
-<h2>Actions</h2> <!-- you can change this but make sure to not change anything below anymore -->
+<h2>Remote Actions</h2>
 
 <form action="/create_folder" method="post">
     <input type="text" name="folder_name" placeholder="Folder name">
@@ -64,7 +70,7 @@ setInterval(updateScreen, 200);
 
 <form action="/overlay" method="post">
     <input type="text" name="overlay_text" placeholder="Overlay text">
-    <button type="submit">show a text overlay (3s)</button>
+    <button type="submit">Show Overlay (3s)</button>
 </form>
 
 <form action="/list_processes" method="get">
@@ -87,19 +93,88 @@ setInterval(updateScreen, 200);
 <form action="/rename_desktop" method="post">
     <input type="text" name="old_name" placeholder="Old Name">
     <input type="text" name="new_name" placeholder="New Name">
-    <button type="submit">Rename a file/folder</button>
+    <button type="submit">Rename File/Folder</button>
 </form>
 
 <form action="/create_text_file" method="post">
     <input type="text" name="filename" placeholder="Filename">
     <input type="text" name="content" placeholder="Content (optional)">
-    <button type="submit">Create a text file</button>
+    <button type="submit">Create Text File</button>
 </form>
 
 <form action="/batch_editor" method="get">
     <button type="submit">Make a Batch File</button>
 </form>
-
 </div>
+
+<div class="subsection">
+<h2>Virtual Keyboard</h2>
+<div class="keyboard" id="keyboard"></div>
+</div>
+
+<div class="subsection">
+<h2>Virtual Mouse</h2>
+<div class="mouse-area" id="mouseArea">
+    <div class="pointer" id="pointer"></div>
+</div>
+</div>
+
+<script>
+// --- Keyboard Setup ---
+const keys = [
+"Esc","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12",
+"`","1","2","3","4","5","6","7","8","9","0","-","=","Backspace",
+"Tab","Q","W","E","R","T","Y","U","I","O","P","[","]","\\",
+"CapsLock","A","S","D","F","G","H","J","K","L",";","'","Enter",
+"Shift","Z","X","C","V","B","N","M",",",".","/","Shift",
+"Ctrl","Win","Alt","Space","Alt","Win","Menu","Ctrl"
+];
+
+const keyboardDiv = document.getElementById("keyboard");
+
+keys.forEach(key => {
+    const b = document.createElement("div");
+    b.classList.add("key");
+    b.innerText = key;
+    b.onclick = () => sendKey(key);
+    keyboardDiv.appendChild(b);
+});
+
+function sendKey(key) {
+    fetch("/send_key", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key })
+    });
+}
+
+// --- Mouse Setup ---
+const mouseArea = document.getElementById("mouseArea");
+const pointer = document.getElementById("pointer");
+
+mouseArea.addEventListener("mousemove", e => {
+    const rect = mouseArea.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    pointer.style.left = x + "px";
+    pointer.style.top = y + "px";
+
+    fetch("/mouse_move", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ x, y })
+    });
+});
+
+mouseArea.addEventListener("mousedown", e => {
+    const button = e.button; // 0 = left, 2 = right
+    fetch("/mouse_click", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ button })
+    });
+});
+</script>
+
 </body>
 </html>
